@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class DayLightCycle : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class DayLightCycle : MonoBehaviour
     [SerializeField] private float _dayLength;
     [SerializeField] private Color _dayClockColor;
     [SerializeField] private Color _nightClockColor;
+
+    public event UnityAction SunIsRisingUp;
+    public event UnityAction SunIsGoingDown;
 
     private float _currentTime;
     private bool _isNight;

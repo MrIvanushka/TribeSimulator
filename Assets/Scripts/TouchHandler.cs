@@ -5,6 +5,7 @@ using UnityEngine;
 public class TouchHandler : MonoBehaviour
 {
     [SerializeField] private CameraMovement _cameraMovement;
+    [SerializeField] private SelectedUnitsController _selectedUnitsController;
 
     private Camera _camera;
 
@@ -32,7 +33,17 @@ public class TouchHandler : MonoBehaviour
 
     private void Interract(Touch touch)
     {
+        InteractableObject interactableObject = null;
 
+        if (Physics.Raycast(_camera.ScreenPointToRay(touch.position), out RaycastHit hit))
+        {
+            if (hit.collider.TryGetComponent<InteractableObject>(out interactableObject))
+                interactableObject.Interact();
+        }
+        if (interactableObject == null)
+        {
+            _selectedUnitsController.MoveSelectedUnits(hit.point);
+        }
     }
 
     private void ScaleScreen()
