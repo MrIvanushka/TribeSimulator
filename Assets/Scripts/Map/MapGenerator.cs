@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
 {
-    private const int MAP_LENGTH = 7;
+    [SerializeField] private int _mapLength = 7;
+    [SerializeField] [Range(0, 100)] private int _wallChance = 50; 
+
     private const int CHUNK_SEPARATION_LEVEL = 20;
+
     public void GenerateMap()
     {
-        ChunkData[,] chunks = new ChunkData[MAP_LENGTH, MAP_LENGTH];
+        ChunkData[,] chunks = new ChunkData[_mapLength, _mapLength];
         bool[,] heightMap = GenerateHeightMap();
 
-        for (int i = 0; i < MAP_LENGTH; i++)
+        for (int i = 0; i < _mapLength; i++)
         {
-            for (int j = 0; j < MAP_LENGTH; j++)
+            for (int j = 0; j < _mapLength; j++)
             {
                 chunks[i, j] = GenerateChunk(i, j, heightMap);
             }
@@ -24,7 +27,7 @@ public class MapGenerator : MonoBehaviour
 
     private bool[,] GenerateHeightMap()
     {
-        bool[,] heightMap = new bool[MAP_LENGTH * CHUNK_SEPARATION_LEVEL, MAP_LENGTH * CHUNK_SEPARATION_LEVEL];
+        bool[,] heightMap = new bool[_mapLength * CHUNK_SEPARATION_LEVEL, _mapLength * CHUNK_SEPARATION_LEVEL];
 
         for (int i = 0; i < heightMap.GetLength(0); i++)
         {
@@ -35,7 +38,7 @@ public class MapGenerator : MonoBehaviour
                 else if (Vector2.Distance(new Vector2(i, j), new Vector2(heightMap.GetLength(0) / 2, heightMap.GetLength(1) / 2)) < 5)
                     heightMap[i, j] = false;
                 else
-                    heightMap[i, j] = Random.Range(0, 100) > 60;
+                    heightMap[i, j] = Random.Range(0, 100) > _wallChance;
             }
         }
 

@@ -1,53 +1,63 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 public class TouchHandler : MonoBehaviour
 {
-    [SerializeField] private CameraMovement _cameraMovement;
-    [SerializeField] private SelectedUnitsController _selectedUnitsController;
+    private UnitsInput _inputSystem;
 
-    private Camera _camera;
+    public event UnityAction<TouchData> TouchIsStarted;
+    public event UnityAction<TouchData> TouchIsEnded;
+    public event UnityAction<TouchData> ScreenTap;
 
-    private void Start()
+    public Vector2 TouchPosition => _inputSystem.Touch.TouchPosition.ReadValue<Vector2>();
+
+    private void Awake()
     {
-        _camera = Camera.main;
+        _inputSystem = new UnitsInput();
     }
 
-    void Update()
+    private void OnEnable()
     {
-        if (Input.touchCount == 1)
-        {
-            Touch touch = Input.GetTouch(0);
-
-            if (touch.phase == TouchPhase.Began)
-                Interract(touch);
-            else if (touch.phase == TouchPhase.Moved)
-                _cameraMovement.Move(touch.deltaPosition);
-        }
-        else
-        {
-            ScaleScreen();
-        }
+        _inputSystem.Enable();
+        _inputSystem.Touch.TouchPress.started += ctx => StartTouch(ctx);
+        _inputSystem.Touch.TouchPress.canceled += ctx => EndTouch(ctx);
+        _inputSystem.Touch.Tap.performed += ctx => OnTap(ctx);
     }
 
-    private void Interract(Touch touch)
+    private void OnDisable()
     {
-        InteractableObject interactableObject = null;
-
-        if (Physics.Raycast(_camera.ScreenPointToRay(touch.position), out RaycastHit hit))
-        {
-            if (hit.collider.TryGetComponent<InteractableObject>(out interactableObject))
-                interactableObject.Interact();
-        }
-        if (interactableObject == null)
-        {
-            _selectedUnitsController.MoveSelectedUnits(hit.point);
-        }
+        _inputSystem.Touch.TouchPress.started -= ctx => StartTouch(ctx);
+        _inputSystem.Touch.TouchPress.canceled -= ctx => EndTouch(ctx);
+        _inputSystem.Disable();
     }
 
-    private void ScaleScreen()
+    private void StartTouch(InputAction.CallbackContext context)
     {
+        TouchIsStarted?.Invoke(new TouchData(_inputSystem.Touch.TouchPosition.ReadValue<Vector2>(), (float)context.startTime));
+    }
 
+    private void EndTouch(InputAction.CallbackContext context)
+    {
+        TouchIsEnded?.Invoke(new TouchData(TouchPosition, (float)context.time));
+    }
+
+    private void OnTap(InputAction.CallbackContext context)
+    {
+        ScreenTap?.Invoke(new TouchData(TouchPosition, (float)context.time));
+    }
+}
+
+public struct TouchData 
+{
+    public readonly Vector2 Position;
+    public readonly float Time;
+
+    public TouchData(Vector2 position, float time)
+    {
+        Position = position;
+        Time = time;
     }
 }
