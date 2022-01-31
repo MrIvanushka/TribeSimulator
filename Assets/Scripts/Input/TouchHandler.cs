@@ -8,9 +8,9 @@ public class TouchHandler : MonoBehaviour
 {
     private UnitsInput _inputSystem;
 
-    public event UnityAction<TouchData> TouchIsStarted;
-    public event UnityAction<TouchData> TouchIsEnded;
-    public event UnityAction<TouchData> ScreenTap;
+    public event UnityAction<Vector2> TouchIsStarted;
+    public event UnityAction<Vector2> TouchIsEnded;
+    public event UnityAction<Vector2> ScreenTap;
 
     public Vector2 TouchPosition => _inputSystem.Touch.TouchPosition.ReadValue<Vector2>();
 
@@ -36,28 +36,16 @@ public class TouchHandler : MonoBehaviour
 
     private void StartTouch(InputAction.CallbackContext context)
     {
-        TouchIsStarted?.Invoke(new TouchData(_inputSystem.Touch.TouchPosition.ReadValue<Vector2>(), (float)context.startTime));
+        TouchIsStarted?.Invoke(_inputSystem.Touch.TouchPosition.ReadValue<Vector2>());
     }
 
     private void EndTouch(InputAction.CallbackContext context)
     {
-        TouchIsEnded?.Invoke(new TouchData(TouchPosition, (float)context.time));
+        TouchIsEnded?.Invoke(_inputSystem.Touch.TouchPosition.ReadValue<Vector2>());
     }
 
     private void OnTap(InputAction.CallbackContext context)
     {
-        ScreenTap?.Invoke(new TouchData(TouchPosition, (float)context.time));
-    }
-}
-
-public struct TouchData 
-{
-    public readonly Vector2 Position;
-    public readonly float Time;
-
-    public TouchData(Vector2 position, float time)
-    {
-        Position = position;
-        Time = time;
+        ScreenTap?.Invoke(_inputSystem.Touch.TouchPosition.ReadValue<Vector2>());
     }
 }

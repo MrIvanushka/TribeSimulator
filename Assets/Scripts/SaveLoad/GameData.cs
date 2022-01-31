@@ -15,7 +15,7 @@ namespace TribeToSurvive.SaveSystems
         {
             Chunks = new List<Chunk>(chunks);
             Units = new List<Unit>() { unit };
-            CameraPosition = new Vector3(unit.Position.x, 50, unit.Position.z);
+            CameraPosition = new Vector3(unit.Position.x, 10, unit.Position.z);
         }
     }
 }
