@@ -1,4 +1,0 @@
-interface ISaveable
-{
-    ObjectData GetData();
-}

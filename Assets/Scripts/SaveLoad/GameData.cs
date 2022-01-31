@@ -1,65 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using TribeToSurvive.Model;
 
-[System.Serializable]
-public class GameData
+namespace TribeToSurvive.SaveSystems
 {
-    public readonly float CurrentTime;
-    public readonly float FlamesHP;
-    public readonly SerializableVector2 CameraPosition;
-    public ChunkData[,] Chunks;
-    public List<UnitData> Tribe;
-
-    public GameData(ChunkData[,] chunks, UnitData unit)
+    [System.Serializable]
+    public class GameData
     {
-        Chunks = chunks;
-        FlamesHP = 100;
-        CurrentTime = 0;
-        Tribe = new List<UnitData>() { unit };
-        CameraPosition = unit.Position;
-    }
+        public List<Chunk> Chunks;
+        public List<Unit> Units;
+        public Vector3 CameraPosition;
 
-    public GameData(ChunkData[,] chunks, List<UnitData> tribe, float flamesHP, float currentTime)
-    {
-        Chunks = chunks;
-        FlamesHP = flamesHP;
-        CurrentTime = currentTime;
-        Tribe = tribe;
-    }
-}
-
-[System.Serializable]
-public abstract class ObjectData
-{
-    public readonly SerializableVector2 Position;
-
-    public ObjectData(InteractableObject interactableObject)
-    {
-        Position = new SerializableVector2(interactableObject.transform.position);
-    }
-
-    public ObjectData(float positionX, float positionY)
-    {
-        Position = new SerializableVector2(positionX, positionY);
-    }
-}
-
-[System.Serializable]
-public struct SerializableVector2
-{
-    public readonly float X;
-    public readonly float Y;
-
-    public SerializableVector2(float x, float y)
-    {
-        X = x;
-        Y = y;
-    }
-
-    public SerializableVector2(Vector3 vector)
-    {
-        X = vector.x;
-        Y = vector.z;
+        public GameData(Chunk[] chunks, Unit unit)
+        {
+            Chunks = new List<Chunk>(chunks);
+            Units = new List<Unit>() { unit };
+            CameraPosition = new Vector3(unit.Position.x, 50, unit.Position.z);
+        }
     }
 }

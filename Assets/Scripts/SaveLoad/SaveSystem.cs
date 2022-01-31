@@ -2,64 +2,67 @@
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-public static class SaveSystem
+namespace TribeToSurvive.SaveSystems
 {
-    private static void Save<Data>(Data data, string path)
+    public static class SaveSystem
     {
-        BinaryFormatter formatter = new BinaryFormatter();
-        FileStream stream = new FileStream(path, FileMode.Create);
-        formatter.Serialize(stream, data);
-        stream.Close();
-    }
-    private static Data Load<Data>(string path)
-    {
-        if (File.Exists(path))
+        private static void Save<Data>(Data data, string path)
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(path, FileMode.Open);
-
-            Data data = (Data)formatter.Deserialize(stream);
-
+            FileStream stream = new FileStream(path, FileMode.Create);
+            formatter.Serialize(stream, data);
             stream.Close();
-            return data;
         }
-        return default(Data);
-    }
+        private static Data Load<Data>(string path)
+        {
+            if (File.Exists(path))
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                FileStream stream = new FileStream(path, FileMode.Open);
 
-    public static void SaveData(GeneralSaveData data)
-    {
-        Save(data, Application.persistentDataPath + "/general.save");
-    }
+                Data data = (Data)formatter.Deserialize(stream);
 
-    public static GeneralSaveData LoadData()
-    {
-        return Load<GeneralSaveData>(Application.persistentDataPath + "/general.save");
-    }
+                stream.Close();
+                return data;
+            }
+            return default(Data);
+        }
 
-    public static void SaveGame(GameData data)
-    {
-        Save(data, Application.persistentDataPath + "/game.save");
-    }
+        public static void SaveData(GeneralSaveData data)
+        {
+            Save(data, Application.persistentDataPath + "/general.save");
+        }
 
-    public static GameData LoadGame()
-    {
-        return Load<GameData>(Application.persistentDataPath + "/game.save");
-    }
+        public static GeneralSaveData LoadData()
+        {
+            return Load<GeneralSaveData>(Application.persistentDataPath + "/general.save");
+        }
 
-    public static void SaveSettings(SettingsData data)
-    {
-        Save(data, Application.persistentDataPath + "/settings.save");
-    }
+        public static void SaveGame(GameData data)
+        {
+            Save(data, Application.persistentDataPath + "/game.save");
+        }
 
-    public static SettingsData LoadSettings()
-    {
-        return Load<SettingsData>(Application.persistentDataPath + "/settings.save");
-    }
+        public static GameData LoadGame()
+        {
+            return Load<GameData>(Application.persistentDataPath + "/game.save");
+        }
 
-    public static void DeleteGame()
-    {
-        string path = Application.persistentDataPath + "/game.save";
-        File.Delete(path);
-    }
+        public static void SaveSettings(SettingsData data)
+        {
+            Save(data, Application.persistentDataPath + "/settings.save");
+        }
 
+        public static SettingsData LoadSettings()
+        {
+            return Load<SettingsData>(Application.persistentDataPath + "/settings.save");
+        }
+
+        public static void DeleteGame()
+        {
+            string path = Application.persistentDataPath + "/game.save";
+            File.Delete(path);
+        }
+
+    }
 }
