@@ -23,7 +23,7 @@ namespace TribeToSurvive.Model
                     chunks[i * _mapLength + j] = GenerateChunk(i, j, heightMap);
                 }
             }
-            Unit firstUnit = new Unit(new Vector3(10, 0, 10));
+            Unit firstUnit = new Unit(new Vector3(5f * _mapLength, 0, 5f * _mapLength));
             SaveSystem.SaveGame(new GameData(chunks, firstUnit));
         }
 

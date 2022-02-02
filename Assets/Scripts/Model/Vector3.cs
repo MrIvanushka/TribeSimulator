@@ -1,7 +1,14 @@
 namespace TribeToSurvive.Model
 {
+    interface IVector3
+    {
+        float X { get; }
+        float Y { get; }
+        float Z { get; }
+    }
+
     [System.Serializable]
-    public struct Vector3
+    public struct Vector3 : IVector3
     {
         public float X { get; private set; }
         public float Y { get; private set; }

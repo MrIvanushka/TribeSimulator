@@ -482,6 +482,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _factory: {fileID: 72892096}
+  _navMeshSurface: {fileID: 295981171}
   _camera: {fileID: 963194228}
 --- !u!4 &72892095
 Transform:

@@ -14,10 +14,12 @@ public class CameraInput : MonoBehaviour
     {
         _cameraIsMoving = true;
         _previousTouchPosition = _touchHandler.TouchPosition;
+        _model.StartMoving();
     }
     private void OnEndTouch(Vector2 touchPosition)
     {
         _cameraIsMoving = false;
+        _model.EndMoving();
     }
 
     public void Initialize(CameraMovement model)
