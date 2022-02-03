@@ -6,17 +6,18 @@ using TribeToSurvive.Model;
 public class CameraInput : MonoBehaviour
 {
     [SerializeField] private TouchHandler _touchHandler;
+
     private CameraMovement _model;
     private bool _cameraIsMoving = false;
     private Vector2 _previousTouchPosition;
 
-    private void OnStartTouch(Vector2 touchPosition)
+    private void OnStartTouch()
     {
         _cameraIsMoving = true;
         _previousTouchPosition = _touchHandler.TouchPosition;
         _model.StartMoving();
     }
-    private void OnEndTouch(Vector2 touchPosition)
+    private void OnEndTouch()
     {
         _cameraIsMoving = false;
         _model.EndMoving();

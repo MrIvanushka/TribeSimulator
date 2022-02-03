@@ -3,24 +3,11 @@ using System;
 namespace TribeToSurvive.Model
 {
     [Serializable]
-    public class Tree : ISceneObject
+    public class Tree : BreakableObject
     {
-        private Vector3 _position;
+        public override int BreakingTime { get; } = 5000;
 
-        public UnityEngine.Vector3 Position => new UnityEngine.Vector3(_position.X, _position.Y, _position.Z);
-        public float Rotation { get; private set; }
-
-        public Action Destroying;
-
-        public Tree(Vector3 position)
-        {
-            _position = position;
-            Rotation = 0;
-        }
-
-        public void Destroy()
-        {
-            Destroying?.Invoke();
-        }
+        public Tree(Vector3 position) : base(position)
+        { }
     }
 }

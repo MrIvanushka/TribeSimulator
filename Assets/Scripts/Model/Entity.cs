@@ -12,6 +12,7 @@ namespace TribeToSurvive.Model
 
         public event Action<UnityEngine.Vector3> GotDestination;
         public event Action Destroying;
+        public event Action ArrivedAtDestination;
 
         public Entity(Vector3 position, float rotation)
         {
@@ -22,6 +23,11 @@ namespace TribeToSurvive.Model
         public void SetDestination(UnityEngine.Vector3 destination)
         {
             GotDestination?.Invoke(destination);
+        }
+
+        public void Arrive()
+        {
+            ArrivedAtDestination?.Invoke();
         }
 
         public void Destroy()

@@ -8,9 +8,9 @@ public class TouchHandler : MonoBehaviour
 {
     private UnitsInput _inputSystem;
 
-    public event UnityAction<Vector2> TouchIsStarted;
-    public event UnityAction<Vector2> TouchIsEnded;
-    public event UnityAction<Vector2> ScreenTap;
+    public event UnityAction TouchIsStarted;
+    public event UnityAction TouchIsEnded;
+    public event UnityAction ScreenTap;
 
     public Vector2 TouchPosition => _inputSystem.Touch.TouchPosition.ReadValue<Vector2>();
 
@@ -36,16 +36,16 @@ public class TouchHandler : MonoBehaviour
 
     private void StartTouch(InputAction.CallbackContext context)
     {
-        TouchIsStarted?.Invoke(_inputSystem.Touch.TouchPosition.ReadValue<Vector2>());
+        TouchIsStarted?.Invoke();
     }
 
     private void EndTouch(InputAction.CallbackContext context)
     {
-        TouchIsEnded?.Invoke(_inputSystem.Touch.TouchPosition.ReadValue<Vector2>());
+        TouchIsEnded?.Invoke();
     }
 
     private void OnTap(InputAction.CallbackContext context)
     {
-        ScreenTap?.Invoke(_inputSystem.Touch.TouchPosition.ReadValue<Vector2>());
+        ScreenTap?.Invoke();
     }
 }

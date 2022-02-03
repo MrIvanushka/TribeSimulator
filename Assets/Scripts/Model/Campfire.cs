@@ -11,8 +11,8 @@ namespace TribeToSurvive.Model
         public UnityEngine.Vector3 Position => new UnityEngine.Vector3(_position.X, _position.Y, _position.Z);
         public float Rotation { get; private set; }
 
-        public Action Destroying;
-        public Action GameOver;
+        public event Action Destroying;
+        public event Action GameOver;
 
         public void Destroy()
         {

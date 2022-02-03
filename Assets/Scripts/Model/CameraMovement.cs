@@ -16,8 +16,8 @@ namespace TribeToSurvive.Model
 
         public UnityEngine.Vector3 Position => new UnityEngine.Vector3(_position.X, _position.Y, _position.Z);
 
-        public Action Destroying;
-        public Action Moved;
+        public event Action Destroying;
+        public event Action Moved;
 
         public CameraMovement(UnityEngine.Vector3 position)
         {

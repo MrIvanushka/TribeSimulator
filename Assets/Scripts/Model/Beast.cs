@@ -5,5 +5,10 @@ namespace TribeToSurvive.Model
     {
         public Beast(Vector3 position, float rotation = 0) : base(position, rotation)
         { }
+
+        public void RunAway()
+        {
+
+        }
     }
 }
